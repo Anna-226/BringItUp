@@ -1,11 +1,11 @@
 import Slider from "./slider";
 
 export default class MainSlider extends Slider {
-   constructor(btns) {
-      super(btns);
+   constructor(btns, prev, next) {
+      super(btns, prev, next);
    }
    showSlides(n) {
-      try {
+      if (this.container) {
          if (n > this.slides.length) {
             this.slideIndex = 1;
          }
@@ -22,7 +22,7 @@ export default class MainSlider extends Slider {
                   this.hanson.classList.add('slideInUp');
                }, 3000);
             }else{
-               this.hanson.classList.remove('slideInUp')
+               this.hanson.classList.remove('slideInUp');
             }
          }catch(e){}
          
@@ -30,17 +30,13 @@ export default class MainSlider extends Slider {
             slide.style.display = 'none';
          });
          this.slides[this.slideIndex-1].style.display = 'block';
-      } catch(e) {}
+      } 
    }
    plusSlide(n) {
       this.showSlides(this.slideIndex += n);
    }
-   render() {
-      try {
-         this.hanson = document.querySelector('.hanson')
-      }catch(e){}
 
-      this.showSlides(this.slideIndex);
+   bindTriggers() {
       this.btns.forEach(btn => {
          btn.addEventListener('click', () => {
             this.plusSlide(1);
@@ -49,8 +45,37 @@ export default class MainSlider extends Slider {
             e.preventDefault();
             this.slideIndex = 1;
             this.showSlides(this.slideIndex);
-         })
+         });
       });
+
+      this.prev.forEach(btn => {
+         btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.plusSlide(-1);
+         });
+      });
+
+      this.next.forEach(btn => {
+         btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.plusSlide(1);
+         });
+      });
+      
+   }
+   render() {
+      if (this.container) {
+         try {
+            this.hanson = document.querySelector('.hanson');
+         } catch(e) {}
+
+         this.bindTriggers();
+
+         this.showSlides(this.slideIndex);
+         
+      }
       
    }
 }
