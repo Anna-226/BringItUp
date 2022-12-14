@@ -3,6 +3,8 @@ import MiniSlider from './modules/slider/slider-mini';
 import VideoPlayer from './modules/videoPlayer';
 import Differences from './modules/differences';
 import Forms from './modules/forms';
+import ShowInfo from './modules/showInfo';
+import Download from './modules/download';
 
 window.addEventListener('DOMContentLoaded', () => {
    const slider = new MainSlider({container: ".page", btns: ".next"});
@@ -45,4 +47,8 @@ window.addEventListener('DOMContentLoaded', () => {
    new Differences('.officerold', '.officernew', '.officer__card-item').init();
 
    new Forms().init();
+
+   new ShowInfo('.plus').init();
+
+   new Download('.download').init();
 });
